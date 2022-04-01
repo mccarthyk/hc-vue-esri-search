@@ -1,17 +1,22 @@
 {
-  "name": "hc-esri-search",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@hcflgov/vue-esri-search",
+  "version": "3.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "build:lib": "vue-tsc --noEmit && vite build",
+    "build:demo": "vue-tsc --noEmit && vite --config vite.config.demo.ts build",
+    "build:docs": "typedoc --out docs/docs ./src/lib/index.ts",
+    "build": "yarn build:lib && yarn build:demo && yarn build:docs",
+    "preview": "vite --config vite.config.demo.ts preview"
   },
   "dependencies": {
+    "@arcgis/core": "^4.22.2",
     "vue": "^3.2.25"
   },
   "devDependencies": {
+    "@types/node": "^17.0.21",
     "@vitejs/plugin-vue": "^2.2.0",
+    "typedoc": "^0.22.13",
     "typescript": "^4.5.4",
     "vite": "^2.8.0",
     "vue-tsc": "^0.29.8"
