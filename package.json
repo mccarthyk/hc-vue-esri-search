@@ -7,7 +7,9 @@
     "build:demo": "vue-tsc --noEmit && vite --config vite.config.demo.ts build",
     "build:docs": "typedoc --out docs/docs ./src/lib/index.ts",
     "build": "yarn build:lib && yarn build:demo && yarn build:docs",
-    "preview": "vite --config vite.config.demo.ts preview"
+    "preview": "vite --config vite.config.demo.ts preview",
+    "test": "cypress run",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@arcgis/core": "^4.22.2",
@@ -16,6 +18,7 @@
   "devDependencies": {
     "@types/node": "^17.0.21",
     "@vitejs/plugin-vue": "^2.2.0",
+    "cypress": "^9.5.3",
     "typedoc": "^0.22.13",
     "typescript": "^4.5.4",
     "vite": "^2.8.0",
