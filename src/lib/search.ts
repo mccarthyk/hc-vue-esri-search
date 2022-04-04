@@ -58,7 +58,9 @@ export const searchResults = reactive<__hc.Esri.Search.IReactiveSearchResults>({
 /**
  * @category Search
  */
-export async function search() {
+export async function search(): Promise<
+  __hc.Esri.Search.IReactiveSearchResults['data']
+> {
   searchResults.status = null
   if (!input.value) return
 
@@ -83,6 +85,8 @@ export async function search() {
           //   feature: feature.toJSON(),
         } as __esri.SearchResult)
     )
+
+    return results
   } catch (error) {
     console.warn(error)
     searchResults.status = 'An error occurred when searching.'

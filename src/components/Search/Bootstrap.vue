@@ -22,10 +22,23 @@ watch(
   },
   { immediate: true }
 )
+
+const emit =
+  defineEmits<{
+    (
+      event: 'submit',
+      data: __hc.Esri.Search.IReactiveSearchResults['data']
+    ): void
+  }>()
+
+const submit = async (event: Event) => {
+  const results = await search()
+  emit('submit', results)
+}
 </script>
 
 <template>
-  <form @submit.prevent="search">
+  <form @submit.prevent="submit">
     <fieldset v-if="searchProps.sources?.length">
       <legend>Search Source:</legend>
       <div
@@ -63,6 +76,7 @@ watch(
           @input="suggest"
           list="suggestions"
           required
+          id="esriSearchInput"
         />
 
         <button

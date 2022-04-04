@@ -14,7 +14,7 @@ declare namespace __hc.Esri.Search {
 
   interface IReactiveSearchResults extends IReactive {
     status: String | null
-    data: __esri.SearchResult[]
+    data?: __esri.SearchResult[]
   }
 
   interface IReactiveFeatures extends IReactive {

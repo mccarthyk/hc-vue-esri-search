@@ -38,7 +38,9 @@ export async function queryFeatures(
     const { features: queriedFeatures } = await featureLayer.queryFeatures({
       outFields: ['*'],
       ...options,
-      geometry: Extent.fromJSON(extent),
+      geometry: extent.hasOwnProperty('type')
+        ? extent
+        : Extent.fromJSON(extent),
     })
 
     features.data = queriedFeatures.map((f) => f.toJSON())

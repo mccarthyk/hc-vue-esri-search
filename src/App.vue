@@ -5,12 +5,12 @@ import {
 
   // composition api
   featureLayerProps,
-  searchResults,
   queryFeatures,
 
   // optional
   input,
   searchProps,
+  searchResults,
   suggestions,
   features,
 } from './lib'
@@ -20,25 +20,25 @@ import { watch } from 'vue'
 featureLayerProps.url =
   'https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Counties/FeatureServer/0'
 
-// watch for search results
-watch(
-  () => searchResults.data,
-  async () => {
-    try {
-      const [firstResult] = searchResults.data
+// triggered on SearchBootstrap's submit event
+const watchResults = async (
+  results: __hc.Esri.Search.IReactiveSearchResults['data']
+) => {
+  if (!results) throw 'No Search Results'
+  try {
+    const [firstResult] = results
 
-      // query result's extent agains feature layer
-      const queriedFeatures = await queryFeatures(firstResult?.extent, {
-        // returnGeometry: true,
-      })
+    // query result's extent agains feature layer
+    const queriedFeatures = await queryFeatures(firstResult?.extent, {
+      // returnGeometry: true,
+    })
 
-      // fun with features!
-      console.log('features', queriedFeatures)
-    } catch (error) {
-      console.warn(error)
-    }
+    // fun with features!
+    console.log('features', queriedFeatures)
+  } catch (error) {
+    console.warn(error)
   }
-)
+}
 
 // set input value, useful for dev
 input.value = '601 E Kennedy Blvd, Tampa'
@@ -53,7 +53,7 @@ watch(input, () => {
 import { reactive } from 'vue'
 const options = reactive({
   size: 1,
-  sources: 1,
+  sources: 0,
 })
 </script>
 
@@ -64,6 +64,7 @@ const options = reactive({
     :small="options.size === 0"
     :large="options.size === 2"
     :hc-sources="options.sources === 1"
+    @submit="watchResults"
   />
 
   <section class="bg-secondary p-3 mt-5">
@@ -130,19 +131,19 @@ const options = reactive({
       </div>
     </details>
 
-    <details open class="card">
+    <details class="card">
       <summary class="card-header">Suggestions</summary>
       <pre class="card-body">{{ suggestions }}</pre>
     </details>
 
-    <details open class="card">
+    <details class="card">
       <summary class="card-header">Search Results</summary>
       <pre class="card-body">{{ searchResults }}</pre>
     </details>
 
     <details open class="card">
       <summary class="card-header">Queried Features</summary>
-      <pre class="card-body">{{ features }}</pre>
+      <pre id="queriedFeatures" class="card-body">{{ features }}</pre>
     </details>
   </section>
 </template>
