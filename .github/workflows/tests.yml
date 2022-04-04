@@ -1,0 +1,24 @@
+name: example-wait-on
+on:
+  push:
+    branches:
+      - 'testing'
+
+  pull_request:
+
+jobs:
+  wait:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Test
+        uses: cypress-io/github-action@v2
+        with:
+          # working-directory: ./
+          record: true
+          # build: yarn build
+          # start: yarn preview
+          start: yarn dev
+          wait-on: 'http://localhost:3000'
