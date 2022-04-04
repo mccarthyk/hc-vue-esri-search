@@ -17,7 +17,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           # working-directory: ./
-          record: true
+          # record: true
           # build: yarn build
           # start: yarn preview
           start: yarn dev
